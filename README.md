@@ -30,8 +30,26 @@ echo "drag-and-drop AppDependencies in your folder, xcode will resolve packages 
 
 ### At the end your projet will be like this :
 
-![project with packages](./project-with-packages.png "Project with packages")
+![project with packages](./doc/project-with-packages.png "Project with packages")
 
-and maybe issues like this :
 
-![project no package manifest](./project-with-no-package-manifest-error.png "a dependency with no Package.swift manifest error")
+### Common Issues of dependencies
+
+- Not SPM compatible yet:
+
+![](./doc/project-with-no-package-manifest-error.png "a dependency with no Package.swift manifest error")
+
+To fix this : check if a PR already ask for SPM support on this project, or make one (looking at `Package.swift` files of other projects can help)
+
+- Product not found: project repo / product mismatch (because we assume last path component of repo URL is library name):
+
+![](./doc/product-not-found.png "project and product names differs")
+![](./doc/product-not-found2.png "product not found")
+
+To fix this : rename the target name to the correct one, and this error will appear:
+
+![](./doc/repo-name-mismatch.png "project and product names differs")
+
+To fix this : add `name: "CorrectProductName", ` to the `.package(` line
+
+
