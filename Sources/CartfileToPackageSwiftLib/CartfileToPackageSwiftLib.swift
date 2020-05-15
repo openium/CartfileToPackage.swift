@@ -167,6 +167,15 @@ extension String {
         let someString = self.replacingOccurrences(of: "[1234567890abcdef]", with: "", options: [.regularExpression, .caseInsensitive])
         return someString.isEmpty
     }
+    
+    func containsCharacters(in characters: String) -> Bool {
+        for character in characters {
+            if self.contains(character) {
+                return true
+            }
+        }
+        return false
+    }
 }
 
 public class CartfileToPackageSwift {
@@ -237,7 +246,7 @@ public class CartfileToPackageSwift {
         // Initially generated with ❤️ with CartfileToPackage.swift
         
         import PackageDescription
-        
+        \(generateWarnings())
         let package = Package(
             name: "\(packageName)",
             //platforms: [ .macOS(.v10_10), .iOS(.v8), .tvOS(.v9), .watchOS(.v2), ],
@@ -262,6 +271,29 @@ public class CartfileToPackageSwift {
         )
         """
         
+    }
+    
+    func generateWarnings() -> String {
+        let targetNamesWithSpecialCharacters = singleLineDependencies.compactMap { $0 as? SingleLineDependency }
+            .compactMap { (singleLineDep) -> String? in
+                if singleLineDep.computedTargetName.containsCharacters(in: ".-") {
+                    return singleLineDep.computedTargetName
+                }
+                return nil
+        }
+        
+        if targetNamesWithSpecialCharacters.count == 0 {
+            return ""
+        }
+        let warnings = """
+        Some package(s) have name that might not be correct, you should fix them
+        exemple fixes in both package and target:
+           realm-cocoa -> Realm
+           JWTDecode.swift -> JWTDecode)
+        Concerned package(s):
+            \(targetNamesWithSpecialCharacters.joined(separator: "    \n"))
+        """
+        return "#warning(\"\"\"\n\(warnings)\n\"\"\")"
     }
 }
 
