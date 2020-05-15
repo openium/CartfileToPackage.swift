@@ -52,4 +52,13 @@ To fix this : rename the target name to the correct one, and this error will app
 
 To fix this : add `name: "CorrectProductName", ` to the `.package(` line
 
+- At link time, some module could be missing (a project can have multiple modules), and they can come from missing "sub-dependencies" package:
 
+![](./doc/missing-required-module.png "project and product names differs")
+
+To fix this : add `.product(name: "RxCocoaRuntime", package: "RxSwift"), ` to the `targets: [` 
+Note: you might also add a missing package if this product is in a , in this case : `.package(url: "https://github.com/ReactiveX/RxSwift", .upToNextMajor(from: "5.0.0")),`
+
+- And finally got nice errors that Carthage can't show to you:
+
+![](./doc/invalid-minium-deploment-targets.png "project and product names differs")
