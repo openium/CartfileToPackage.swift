@@ -29,9 +29,17 @@ do {
     exit(12)
 }
 
+var p = packagePath.components(separatedBy: "/")
+_ = p.removeLast()
+let parentPackagePath = p.joined(separator: "/")
+
 print("""
-You can now drag & drop the package in your project/workspace or run:
+You can now drag & drop the package in your project/workspace or run (or cmd-click to open folder):
+    
+    open \(parentPackagePath)
+    
     cd \(packagePath) && swift build
+    
 Please remember that the Package.swift might be incorrect, you can find help in the SPM documentation at:
 https://github.com/apple/swift-package-manager/blob/master/Documentation
 """)
