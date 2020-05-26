@@ -62,3 +62,8 @@ Note: you might also add a missing package if this product is in a , in this cas
 - And finally got nice errors that Carthage can't show to you:
 
 ![](./doc/invalid-minium-deploment-targets.png "project and product names differs")
+
+
+Some references :
+
+https://github.com/renaudjenny/Swift-Package-Manager-Static-Dynamic-Xcode-Bug
